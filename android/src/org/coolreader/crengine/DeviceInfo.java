@@ -21,6 +21,7 @@ public class DeviceInfo {
 	public final static boolean EINK_NOOK;
 	public final static boolean EINK_NOOK_120;
 	public final static boolean EINK_ONYX;
+	public final static boolean EINK_BOYUE_RK3368;
 	public final static boolean EINK_DNS;
 	public final static boolean EINK_TOLINO;
 	public final static boolean FORCE_HC_THEME;
@@ -110,6 +111,10 @@ public class DeviceInfo {
 		EINK_NOOK = MANUFACTURER.toLowerCase().contentEquals("barnesandnoble") &&
 				(PRODUCT.contentEquals("NOOK") || MODEL.contentEquals("NOOK") || MODEL.contentEquals("BNRV350") || MODEL.contentEquals("BNRV300") || MODEL.contentEquals("BNRV500")) &&
 				DEVICE.toLowerCase().contentEquals("zoom2");
+		EINK_BOYUE_RK3368 = MANUFACTURER.toLowerCase().contentEquals("Boyue") &&
+				(PRODUCT.contentEquals("") || MODEL.contentEquals("Likebook-T103D") &&
+				DEVICE.toLowerCase().contentEquals("T103D");
+				 //This probably apply to T80D "Boyue Mars"  since is the same chip and OS  
 		EINK_NOOK_120 = EINK_NOOK && (MODEL.contentEquals("BNRV350") || MODEL.contentEquals("BNRV300") || MODEL.contentEquals("BNRV500"));
 		EINK_SONY = MANUFACTURER.toLowerCase().contentEquals("sony") && MODEL.startsWith("PRS-T");
 		//MANUFACTURER=Onyx, MODEL=*; All ONYX BOOX Readers have e-ink screen
@@ -125,7 +130,7 @@ public class DeviceInfo {
 				(MODEL.toLowerCase().contentEquals("tolino") && DEVICE.toLowerCase().contentEquals("tolino_vision2")); //Tolino Vision HD4 doesn't show any Brand, only Model=tolino and  DEVICE=tolino_vision2)
 
 
-		EINK_SCREEN = EINK_SONY || EINK_NOOK || EINK_ONYX || EINK_ENERGYSYSTEM || EINK_DNS || EINK_TOLINO; // TODO: set to true for eink devices like Nook Touch
+		EINK_SCREEN = EINK_SONY || EINK_NOOK || EINK_ONYX || EINK_ENERGYSYSTEM || EINK_DNS || EINK_TOLINO || EINK_BOYUE_RK3368 ; // TODO: set to true for eink devices like Nook Touch
 
 		// On Onyx Boox Monte Cristo 3 (and possible Monte Cristo, Monte Cristo 2) long press action on buttons are catch by system and not available for application
 		// TODO: check this on other ONYX BOOX Readers
@@ -135,7 +140,7 @@ public class DeviceInfo {
 		
 		NOOK_NAVIGATION_KEYS = EINK_NOOK; // TODO: add autodetect
 		SONY_NAVIGATION_KEYS = EINK_SONY;
-		EINK_SCREEN_UPDATE_MODES_SUPPORTED = EINK_SCREEN && ( EINK_NOOK || EINK_TOLINO || EINK_ONYX ); // TODO: add autodetect
+		EINK_SCREEN_UPDATE_MODES_SUPPORTED = EINK_SCREEN && ( EINK_NOOK || EINK_TOLINO || EINK_ONYX || EINK_BOYUE_RK3368 ); // TODO: add autodetect
 		FORCE_HC_THEME = EINK_SCREEN || MODEL.equalsIgnoreCase("pocketbook vision");
 		USE_CUSTOM_TOAST = EINK_SCREEN;
 		NOFLIBUSTA = POCKETBOOK;
