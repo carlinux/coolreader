@@ -1,25 +1,12 @@
+# CoolReader3 Testing branch for Boyue Devices
+Hopefully to make Eink and frontlight work on Boyue Mimas and Mars with Rockchip RK3368 chips
+
+
+
 CoolReader 3 - cross platform open source e-book reader
 =======================================================
 
 (c) Vadim Lopatin, 1998-2018
-
-
-
-
-Development is moved to GitHub
-------------------------------
-
-
-        https://github.com/buggins/coolreader
-
-
-Sourceforge repository will be used as a mirror
-
-        git clone git://crengine.git.sourceforge.net/gitroot/crengine/crengine
-
-
-[![Join the chat at https://gitter.im/coolreader/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/coolreader/Lobby)
-
 
 
 LICENSE: All source codes (except thirdparty directory) 
@@ -38,32 +25,6 @@ Directories
         tinydict   - small library for .dict file format support
         tools      - miscellaneous configuration files
         android    - Android port
-
-External dependencies
----------------------
-
-        common: zlib, libpng, libjpeg, freetype, harfbuzz
-        cr3gui/xcb: libxcb, fontconfig
-        cr3gui/nanoX: libnanoX
-        cr3/Qt: qt4-core, qt4-gui
-        cr3/wx: wxWidgets 2.8
-
-e.g., for Ubuntu you may use
-
-        > sudo apt-get install git-core cmake libqt4-dev libpng12-dev libfreetype6-dev libjpeg62-dev libfontconfig1-dev zlib1g-dev
-
-Packaging
----------
-
-Debian based packages included to project:
-
-        packages/ubuntu -- debian package for Ubuntu, with Qt frontend
-        packages/openinkpot -- debian package for OpenInkpot, with XCB frontend
-
-To build debian package, copy one of package descriptions from packages directory:
-
-        cp -r packages/ubuntu/debian debian
-        Then, package can be built using `debuild` command.
 
 
 Android Build Instructions
@@ -206,72 +167,3 @@ CMake Build Instructions
         make
 
 
-QT Build under Windows
-======================
-
-    Using QT SDK  
-
-Environment setup: 
-
-- Download and install QT SDK, git, cmake, msys
-- Copy contents of git and cmake dirs to QT/mingw/
-- Copy make.exe from msys/bin to QT/mingw/bin
-
-Run Qt SDK / Qt Command Prompt. Execute:
-
-        > sh
-        > git clone git://crengine.git.sourceforge.net/gitroot/crengine/crengine
-        > mv crengine cr3
-        > cd cr3
-        > mkdir qtbuild
-        > cd qtbuild
-        > cmake -D GUI=QT -D CMAKE_BUILD_TYPE=Release -G "MSYS Makefiles" -D USE_QT_ZLIB=1 -D CMAKE_INSTALL_PREFIX=dist ..
-        > make
-        > make install
-
-        cmake -D GUI=QT -D CMAKE_BUILD_TYPE=Release -G "Visual Studio 9 2008" -D USE_QT_ZLIB=1 -D DOC_DATA_COMPRESSION_LEVEL=3 -D DOC_BUFFER_SIZE=0x1500000 -D CMAKE_INSTALL_PREFIX=dist ..
-        cmake -D GUI=QT -D CMAKE_BUILD_TYPE=Release -G "Visual Studio 10" -D USE_QT_ZLIB=1  -D MAX_IMAGE_SCALE_MUL=2 -D DOC_DATA_COMPRESSION_LEVEL=3 -D DOC_BUFFER_SIZE=0x1500000 -D CMAKE_INSTALL_PREFIX=dist ..
-
-to disable console, use /SUBSYSTEM:WINDOWS linker option instead of /SUBSYSTEM:CONSOLE
-
-For QT5, use GUI=QT5 instead of GUI=QT
-
-For building Qt5 app from QtCreator remove -G (generator) parameter: 
-
-	Release build:
-
-		-D GUI=QT5 -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=dist ..
-
-	Debug build:
-
-		-D GUI=QT5 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=dist ..
-
-It will put built cr3.exe and all necessary distribution files to directory qtbuild/dist.
-
-You need also add following DLLs to this directory in order to get cr3.exe working:
-
-        - mingwm10.dll
-        - QtCore4.dll
-        - QtGui4.dll
-        - libz.dll
-
-Qt Build under Mac OSX
-======================
-
-        #configure and make Qt as static libraries
-        #Inside Qt source root:
-        ./configure -prefix /Developer/Qt -opensource -static -release -arch x86 -arch x86_64 \
-        -no-accessibility -no-stl -no-qt3support -qt-zlib -no-gif -no-libtiff -qt-libpng -qt-freetype -no-libmng -qt-libjpeg -no-nis -no-cups -no-iconv -no-pch -no-dbus -no-opengl -no-fontconfig \
-        -no-xmlpatterns -no-multimedia -no-phonon -no-phonon-backend -no-audio-backend -no-openssl \
-        -no-gtkstyle -no-svg -no-webkit -no-javascript-jit -no-script -no-scripttools -no-declarative 
-        #make Core and GUI libraries
-        make sub-src
-        #make symlinks from `pad` to /Developer/Qt for bin, include, lib, src dirs
-
-        #inside cr3 directory
-        #configure using cmake
-        mkdir macbuild
-        cd macbuild
-        cmake -G "Unix Makefiles" -D GUI=QT -D CMAKE_OSX_ARCHITECTURES="i386 x86_64" -D QT_QMAKE_EXECUTABLE=/Developer/Qt/bin/qmake -D CMAKE_BUILD_TYPE=Release -D MAX_IMAGE_SCALE_MUL=2 -D DOC_DATA_COMPRESSION_LEVEL=3 -D DOC_BUFFER_SIZE=0x1400000 -D CMAKE_INSTALL_PREFIX=cr3.app ..
-        make
-        make install
